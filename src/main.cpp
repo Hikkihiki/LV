@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Symbol.hpp"
+#include "version.hpp"
 
 using namespace std;
 
@@ -39,6 +40,6 @@ private:
 int main() {
   Symbol s;
   s.print();
-  cout << "Hi" << endl;
+  cout << "Version: " << LV_VERSION_MAJOR << "." << LV_VERSION_MINOR << endl;
   return 0;
 }
