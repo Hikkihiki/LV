@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
-#include "Symbol.hpp"
+#include "logic/symbol/symbol.hpp"
 #include "version.hpp"
 
 using namespace std;
+using namespace LV;
 
 class AtomicFormula {};
 
