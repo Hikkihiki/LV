@@ -14,9 +14,19 @@ configure_file (
   "${PROJECT_BINARY_DIR}/version.hpp"
   )
 
+file(GLOB configs RELATIVE ${PROJECT_SOURCE_DIR} "config/*.json")
+foreach(config ${configs})
+    configure_file (
+        "${PROJECT_SOURCE_DIR}/${config}"
+        "${PROJECT_BINARY_DIR}/${config}"
+        )
+endforeach()
+
+
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_SOURCE_DIR}/../thirdparty")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_executable(lv main.cpp logic/symbol/symbol.cpp)

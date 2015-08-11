@@ -1,0 +1,25 @@
+{
+    "Name": "Propositional Logic",
+    "Symbols": [
+        {
+            "Type": "Negation",
+            "Symbol": "~"
+        },
+        {
+            "Type": "Conjunction",
+            "Symbol": "&"
+        },
+        {
+            "Type": "Left Parentheses",
+            "Symbol": "("
+        },
+        {
+            "Type": "Right Parentheses",
+            "Symbol": ")"
+        },
+        {
+            "Type": "Atomic Formula",
+            "Symbol": "ABCDEFGH"
+        }
+    ]
+}

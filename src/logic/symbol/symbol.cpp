@@ -3,7 +3,7 @@
 
 namespace LV {
 
-Symbol::Symbol() {}
+//Symbol::Symbol() {}
 
-void Symbol::print() { std::cout << "b" << std::endl; }
+//void Symbol::print() { std::cout << "b" << std::endl; }
 }
