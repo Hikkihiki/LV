@@ -8,6 +8,11 @@
 #include <cstdio>
 #include <unordered_map>
 #include <stack>
+#include <set>
+#include "parser/cfg_parser.hpp"
+#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/include/lex_lexertl.hpp>
+
 using namespace std;
 using namespace LV;
 
@@ -26,6 +31,32 @@ private:
   bool _decided;
 };
 */
+class IParser {};
+
+class LLParser : public IParser {};
+
+class IGrammar {};
+
+class ContextFreeGrammar : public IGrammar {
+
+  typedef char Terminal;
+  typedef char NonTerminal;
+
+public:
+  void addTerminal(const Terminal &t) { terminal.insert(t); };
+  void addNonTerminal(const NonTerminal &nt) { nonTerminal.insert(nt); };
+
+private:
+  set<Terminal> terminal;
+  set<NonTerminal> nonTerminal;
+};
+
+class ParserFactory {};
+
+IGrammar *createGrammar(const string &json) { return new ContextFreeGrammar(); }
+
+LLParser *createParser(const IGrammar &cfg) { return new LLParser(); }
+
 class Syntax {
 public:
   virtual void addSymbol(const Symbol &symbol) = 0;
@@ -84,6 +115,34 @@ private:
 
 using namespace rapidjson;
 
+namespace fusion = boost::fusion;
+namespace phoenix = boost::phoenix;
+namespace qi = boost::spirit::qi;
+namespace ascii = boost::spirit::ascii;
+namespace lex = boost::spirit::lex;
+/*
+template <typename Iterator>
+struct _PropositionalLogicSyntax : qi::grammar<Iterator, mini
+{
+}
+*/
+
+enum tokenids {
+  ID_TERM = lex::min_token_id + 10,
+  ID_NON_TERM,
+};
+
+template <typename Lexer> struct CFGRulesLexer : lex::lexer<Lexer> {
+  CFGRulesLexer() {}
+};
+
+template <typename Iterator>
+struct CustomContextFreeGrammar : qi::grammar<Iterator, ascii::space_type> {
+  CustomContextFreeGrammar() : CustomContextFreeGrammar::base_type(start) {}
+
+  qi::rule<Iterator, ascii::space_type> start;
+};
+
 int main() {
   ifstream in("config/syntax.json");
   stringstream buffer;
@@ -112,17 +171,63 @@ int main() {
       syntax.addSymbol(s);
     }
   }
-  syntax.print();
+  // syntax.print();
 
   PropositionalLogicParser parser(syntax);
 
-  string str = "~(F&A)";
-  parser.parse(str);
-  cout << "Formula: " << str << endl;
-  cout << "IsFormula: " << (parser.isValid(str) ? "True" : "False") << endl;
+  string input = "~((A&B)&~C)"; // verify this is a formula
+  int start = 0;
+  int len = 14;
 
-  Symbol s;
+  string demoganFrom = "~(A&B)"; // A,B stands for formula (formula matching)
+  string demoganTo = "~A|~B";
+
+  string output = "~(A&B)|~~C";
+
+  // cout << d["Syntax"]["Context-free Grammar"]["Terminals"].GetString() <<
+  // endl;
+  // cout << d["Syntax"]["Non-Terminals"]["P"]
+
+  // std::vector<std::string> terms{"~", "&", "(", ")", "a", "e"};
+  // std::vector<std::string> nonTerms{"S", "Abc"};
+  bool bWhiteSpace = true;
+  // vector<string> rules{"S -> ~S | ( S & S) | Abc", "Abc->a|e"};
+
+  auto &CFG = d["Syntax"]["Context-free Grammar"];
+  auto &terms = CFG["Terminals"];
+  auto &nonTerms = CFG["Non-Terminals"];
+  auto &rules = CFG["Production Rules"]["Rules"];
+
+  parser::CFGRulesParser cfgParser;
+  for (auto itr = terms.Begin(); itr != terms.End(); ++itr) {
+    string s = itr->GetString();
+    cfgParser.addTerminal(s);
+  }
+  for (auto itr = nonTerms.Begin(); itr != nonTerms.End(); ++itr) {
+    string s = itr->GetString();
+    cfgParser.addNonTerminal(s);
+  }
+
+  for (auto itr = rules.Begin(); itr != rules.End(); ++itr) {
+    string rule = itr->GetString();
+    cout << rule << endl;
+    auto begin = rule.cbegin();
+    auto end = rule.cend();
+    bool r = qi::phrase_parse(begin, end, cfgParser, ascii::space);
+    if (begin != end) {
+      r = false;
+    }
+    cout << std::boolalpha << r << endl;
+  }
+
+  // cout << rules.back() << endl;
+  // parser.parse(input);
+  // cout << "Formula: " << input << endl;
+  // cout << "IsFormula: " << (parser.isValid(input) ? "True" : "False") <<
+  // endl;
+
+  // Symbol s;
   // s.print();
-  cout << "Version: " << LV_VERSION_MAJOR << "." << LV_VERSION_MINOR << endl;
+  // cout << "Version: " << LV_VERSION_MAJOR << "." << LV_VERSION_MINOR << endl;
   return 0;
 }

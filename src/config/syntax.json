@@ -19,7 +19,20 @@
         },
         {
             "Type": "Atomic Formula",
-            "Symbol": "ABCDEFGH"
+            "Symbol": ""
         }
-    ]
+    ],
+    "Syntax": {
+        "Context-free Grammar": {
+            "Terminals": ["~", "&", "(", ")", "a"],
+            "Non-Terminals": ["St", "Af"],
+            "Production Rules": {
+                "Ignore White Space": true,
+                "Rules": [
+                    "St -> ~St | ( St & St ) | Af",
+                    "Af -> a"
+                ]
+            }
+        }
+    }
 }

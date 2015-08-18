@@ -29,4 +29,4 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/../thirdparty")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-add_executable(lv main.cpp logic/symbol/symbol.cpp)
+add_executable(lv main.cpp logic/symbol/symbol.cpp parser/cfg_parser.cpp)
