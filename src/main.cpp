@@ -3,7 +3,6 @@
 #include <fstream>
 #include <string>
 #include "logic/symbol/symbol.hpp"
-#include "version.hpp"
 #include "rapidjson/document.h"
 #include <cstdio>
 #include <unordered_map>

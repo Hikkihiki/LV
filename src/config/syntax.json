@@ -24,13 +24,13 @@
     ],
     "Syntax": {
         "Context-free Grammar": {
-            "Terminals": ["~", "&", "(", ")", "a"],
+            "Terminals": ["~", "&", "(", ")", "a_", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
             "Non-Terminals": ["St", "Af"],
             "Production Rules": {
                 "Ignore White Space": true,
                 "Rules": [
                     "St -> ~St | ( St & St ) | Af",
-                    "Af -> a"
+                    "Af -> a_ | Af0 | Af1 | Af2 | Af3 | Af4 | Af5 | Af6 | Af7 | Af8 | Af9"
                 ]
             }
         }
