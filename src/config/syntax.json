@@ -24,15 +24,35 @@
     ],
     "Syntax": {
         "Context-free Grammar": {
-            "Terminals": ["~", "&", "(", ")", "a_", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-            "Non-Terminals": ["St", "Af"],
+            "Terminals": ["~", "&", "(", ")", "0", "1"],
+            "Non-Terminals": [“F”, "A"],
             "Production Rules": {
                 "Ignore White Space": true,
                 "Rules": [
-                    "St -> ~St | ( St & St ) | Af",
-                    "Af -> a_ | Af0 | Af1 | Af2 | Af3 | Af4 | Af5 | Af6 | Af7 | Af8 | Af9"
+                    “F -> ~F | ( F & F ) | A",
+                    "A -> 0 | 1 | 0A | 1A”,
                 ]
             }
         }
+    },
+    “Semantic”: {
+	“Symbols”:[
+		{
+			“Name”: “Negation”,
+			“Type”: “UniaryPrefix” 
+			“Truth Table”: [ 	“0”: “1”, 
+						“1”: “0”
+					],
+		},
+		{
+			“Name”: “Conjunction”,
+			“Type”: “Binary” 
+			“Truth Table”: [ 	“0, 0”: “0”, 
+						“0, 1”: “0”,
+						“1, 0”: “0”,
+						“1, 1”: “1”,
+					],
+		},
+	]
     }
 }

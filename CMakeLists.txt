@@ -9,12 +9,10 @@ if(MSVC)
 endif()
 
 #set(gtest_force_shared_crt ON CACHE BOOL "")
-#add_subdirectory(thirdparty/googletest/googletest)
-
-#include_directories(include)
+#add_subdirectory(thirdparty/rapidjson)
+include_directories(thirdparty/rapidjson/include)
 
 add_subdirectory(src)
-
 #add_subdirectory(test)
 
 #enable_testing()

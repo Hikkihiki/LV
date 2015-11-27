@@ -1,0 +1,30 @@
+{
+	"Atomic Formulas" : [ 
+		{ 
+			"Symbol" : "A",
+		  	"Truth" : true,
+		  	"Translation" : "It is raining." 
+		},
+		{ 
+			"Symbol" : "B",
+		  	"Truth" : true,
+		  	"Translation" : "The floor is wet." 
+		},
+		{ 
+			"Symbol" : "C",
+		  	"Truth" : false,
+		  	"Translation" : "It is indoor." 
+		}
+	],
+	"Premises" : [
+		{
+			"Premise" : "A"
+		},
+		{
+			"Premise" : "~C"
+		},
+		{
+			"Premise" : "((A & ~C) -> B)"
+		}
+	]
+}
